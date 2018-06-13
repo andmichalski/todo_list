@@ -6,5 +6,5 @@ from .models import Task
 # Register your models here.
 
 @admin.register(Task)
-class TodoAdmin(admin.ModelAdmin):
+class TaskAdmin(admin.ModelAdmin):
     list_display = ["title", "text", "status"]
