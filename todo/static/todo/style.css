@@ -11,9 +11,15 @@
     border-color: black
 }
 
-
 .row:after {
     content: "";
     display: table;
     clear: both;
+}
+
+.add_new {
+    font-size: 8px;
+    border-top-style: solid;
+    border-color: black;
+    border-width: 1px;
 }
