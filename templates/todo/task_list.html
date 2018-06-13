@@ -2,23 +2,28 @@
 
 {% block content %}
     <div class="row">
-      <div class="column left_columns">
+        <div class="column left_columns">
             <p><b>TO-DO</b></p>
             {% for task in tasks.0 %}
-                <p><a href="{% url 'taskdetail' task.pk %}">{{ task.title }}</a></p>
+                <p>
+                    <a href="{% url 'taskdetail' task.pk %}">{{ task.title }}</a>
+                    <a href="{% url 'tasklist' %}?update={{ task.id }}">Move</a>
+                </p>
             {% endfor %}
-      </div>
-      <div class="column left_columns">
-        <p><b>In progress</b></p>
+        </div>
+        <div class="column left_columns">
+            <p><b>In progress</b></p>
             {% for task in tasks.1 %}
-                <p><a href="{% url 'taskdetail' task.pk %}">{{ task.title }}</a></p>
+                <p><a href="{% url 'taskdetail' task.pk %}">{{ task.title }}</a>
+                <a href="{% url 'tasklist' %}?update={{ task.id }}">Move</a></p>
             {% endfor %}
-      </div>
-      <div class="column">
+        </div>
+        <div class="column">
             <p><b>Done</b></p>
             {% for task in tasks.2 %}
-                <p><a href="{% url 'taskdetail' task.pk %}">{{ task.title }}</a></p>
+                <p><a href="{% url 'taskdetail' task.pk %}">{{ task.title }}</a>
+                <a href="{% url 'tasklist' %}?update={{ task.id }}">Move</a></p>
             {% endfor %}
-      </div>
+        </div>
     </div>
 {% endblock %}
