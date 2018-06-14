@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from django.contrib.auth.models import User
 from django.shortcuts import reverse
 from django.test import TestCase, RequestFactory
 
@@ -25,17 +26,21 @@ class TaskViewTests(TestCase):
         Task.objects.create(title="Second task", text="Some text about second task", status="in_progress")
         Task.objects.create(title="Third task", text="Some text about third task", status="done")
         self.f = RequestFactory()
+        self.user = User.objects.create_user(username='tester', email='tester@jtester.com', password='top_secret')
 
     def test_should_display_correct_list(self):
         request = self.f.get(reverse('tasklist'))
+        request.user = self.user
         v = setup_view(TaskListView(), request)
         v.object_list = Task.objects.all()
         data = v.get_context_data()
+
         self.assertTrue(data['tasks'])
         self.assertEqual([len(qs) for qs in data['tasks']], [1, 1, 1])
 
     def test_update_should_return_correct_record(self):
         request = self.f.get(reverse('updatestatus', kwargs={"pk": "1"}))
+        request.user = self.user
         kwargs = {"pk": "1"}
         v = setup_view(UpdateStatusView(), request, **kwargs)
         v.get(v.request)
@@ -44,6 +49,7 @@ class TaskViewTests(TestCase):
 
     def test_update_should_redirect(self):
         request = self.f.get(reverse('updatestatus', kwargs={"pk": "1"}))
+        request.user = self.user
         kwargs = {"pk": "1"}
         v = setup_view(UpdateStatusView(), request, **kwargs)
         v.get(v.request)
@@ -103,7 +109,3 @@ class TestModelFunctions(TestCase):
         self.object.status = "done"
         object = Task.update_status(self.object)
         self.assertEqual(object.status, "to_delete")
-
-
-if __name__ == "__main__":
-    main()

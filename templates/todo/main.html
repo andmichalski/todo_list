@@ -2,12 +2,16 @@
 <html lang="en">
 <head>
     {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static 'todo/style.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'todo/style.css' %}"/>
     <meta charset="UTF-8">
     <meta charset="UTF-8">
     <title>TO-DO list</title>
 </head>
 <body>
+{% if request.user.is_authenticated %}
+    <div class="loginfo">logged as: {{ request.user }}
+        <br><a href="{% url 'logoutview' %}">Logout</a></div>
+{% endif %}
 {% block content %}
 {% endblock %}
 </body>

@@ -16,9 +16,9 @@ Including another URLconf
 from django.conf import settings
 from django.conf.urls import url, include
 from django.contrib import admin
-
-from todo.views import TaskListView, TaskDetailView, TaskFormView, DeleteTaskView, UpdateStatusView
-
+from django.contrib.auth.views import LoginView, LogoutView
+from todo.views import TaskListView, TaskDetailView, TaskFormView, DeleteTaskView, UpdateStatusView, SignupUserView
+from django.urls import reverse_lazy
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', TaskListView.as_view(), name="tasklist"),
@@ -26,6 +26,10 @@ urlpatterns = [
     url(r'^new_task/(?P<string>[\w\-]+)/$', TaskFormView.as_view(), name="taskform"),
     url(r'^delete/(?P<pk>\d+)/$', DeleteTaskView.as_view(), name="deletetask"),
     url(r'^update/(?P<pk>\d+)/$', UpdateStatusView.as_view(), name="updatestatus"),
+    url(r'^login/$', LoginView.as_view(), name="loginview"),
+    url(r'^logout/$', LogoutView.as_view(), name="logoutview"),
+    url(r'^signup/$', SignupUserView.as_view(), name="signupview"),
+
 ]
 
 if settings.DEBUG:
