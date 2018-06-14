@@ -31,7 +31,6 @@ class TaskViewTests(TestCase):
         v = setup_view(TaskListView(), request)
         v.object_list = Task.objects.all()
         data = v.get_context_data()
-        print(data)
         self.assertTrue(data['tasks'])
         self.assertEqual([len(qs) for qs in data['tasks']], [1, 1, 1])
 
@@ -53,12 +52,37 @@ class TaskViewTests(TestCase):
 
 
 class TestFormView(TestCase):
+
     def setUp(self):
         form_data = {"title": "First task", "text": "Some text about first task"}
         self.form = TaskForm(data=form_data)
 
     def test_form_should_pas_smoke_test(self):
         self.assertTrue(self.form.is_valid())
+
+    def test_should_save_form_with_todo_status(self):
+        status = "todo"
+        form = self.form
+        form.save(status)
+        task = Task.objects.get(id=1)
+        self.assertEqual(task.title, "First task")
+        self.assertEqual(task.status, "todo")
+
+    def test_should_save_form_with_in_progress_status(self):
+        status = "in_progress"
+        form = self.form
+        form.save(status)
+        task = Task.objects.get(id=1)
+        self.assertEqual(task.title, "First task")
+        self.assertEqual(task.status, "in_progress")
+
+    def test_should_save_form_with_done_status(self):
+        status = "done"
+        form = self.form
+        form.save(status)
+        task = Task.objects.get(id=1)
+        self.assertEqual(task.title, "First task")
+        self.assertEqual(task.status, "done")
 
 
 class TestModelFunctions(TestCase):
@@ -79,3 +103,7 @@ class TestModelFunctions(TestCase):
         self.object.status = "done"
         object = Task.update_status(self.object)
         self.assertEqual(object.status, "to_delete")
+
+
+if __name__ == "__main__":
+    main()
