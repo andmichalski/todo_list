@@ -8,7 +8,7 @@ from django.db import models
 
 
 class Task(models.Model):
-    STATUS_CHOICES = [("todo", "todo"), ("in progress", "in progress"), ("done", "done"), ("to delete", "to delete")]
+    STATUS_CHOICES = [("todo", "todo"), ("in_progress", "in_progress"), ("done", "done"), ("to_delete", "to_delete")]
 
     title = models.CharField(max_length=100)
     text = models.TextField(max_length=1000)
@@ -19,9 +19,9 @@ class Task(models.Model):
 
     def update_status(object):
         if object.status == "todo":
-            object.status = "in progress"
-        elif object.status == "in progress":
+            object.status = "in_progress"
+        elif object.status == "in_progress":
             object.status = "done"
         else:
-            object.status = "to delete"
+            object.status = "to_delete"
         return object

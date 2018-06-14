@@ -6,7 +6,7 @@ from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, FormView, DeleteView
 
-from .forms import TodoForm, InprogressForm, DoneForm
+from .forms import TaskForm
 from .models import Task
 
 
@@ -18,7 +18,7 @@ class TaskListView(ListView):
     def get_context_data(self, **kwargs):
         context = super(TaskListView, self).get_context_data(**kwargs)
         tasks = Task.objects.all()
-        filtered_tasks = [tasks.filter(status="todo"), tasks.filter(status="in progress"), tasks.filter(status="done")]
+        filtered_tasks = [tasks.filter(status="todo"), tasks.filter(status="in_progress"), tasks.filter(status="done")]
         context["tasks"] = filtered_tasks
         return context
 
@@ -38,22 +38,15 @@ class TaskDetailView(DetailView):
     template_name = "todo/task_detail.html"
 
 
-class TodoFormView(FormView):
-    form_class = TodoForm
+class TaskFormView(FormView):
+    form_class = TaskForm
     template_name = "todo/task_form.html"
     success_url = reverse_lazy("tasklist")
 
     def form_valid(self, form):
-        form.save()
+        status = self.kwargs['string']
+        form.save(status)
         return HttpResponseRedirect(self.get_success_url())
-
-
-class InprogressFormView(TodoFormView):
-    form_class = InprogressForm
-
-
-class DoneFormView(TodoFormView):
-    form_class = DoneForm
 
 
 class DeleteTaskView(DeleteView):

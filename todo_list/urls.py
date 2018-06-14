@@ -17,15 +17,13 @@ from django.conf import settings
 from django.conf.urls import url, include
 from django.contrib import admin
 
-from todo.views import TaskListView, TaskDetailView, TodoFormView, InprogressFormView, DoneFormView, DeleteTaskView, UpdateStatusView
+from todo.views import TaskListView, TaskDetailView, TaskFormView, DeleteTaskView, UpdateStatusView
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', TaskListView.as_view(), name="tasklist"),
     url(r'^task/(?P<pk>\d+)/$', TaskDetailView.as_view(), name="taskdetail"),
-    url(r'^new_todo$', TodoFormView.as_view(), name="todoform"),
-    url(r'^new_inprog$', InprogressFormView.as_view(), name="inprogressform"),
-    url(r'^new_done$', DoneFormView.as_view(), name="doneform"),
+    url(r'^new_task/(?P<string>[\w\-]+)/$', TaskFormView.as_view(), name="taskform"),
     url(r'^delete/(?P<pk>\d+)/$', DeleteTaskView.as_view(), name="deletetask"),
     url(r'^update/(?P<pk>\d+)/$', UpdateStatusView.as_view(), name="updatestatus"),
 ]

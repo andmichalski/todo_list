@@ -12,7 +12,7 @@
                 </p>
             {% endfor %}
             <div class="add_new">
-                <br><br><br><a href="{% url 'todoform' %}">Add new task</a>
+                <br><br><br><a href="{% url 'taskform' "todo"%}">Add new task</a>
             </div>
         </div>
         <div class="column left_columns">
@@ -25,7 +25,7 @@
                 </p>
             {% endfor %}
             <div class="add_new">
-                <br><br><br><a href="{% url 'inprogressform' %}">Add new task</a>
+                <br><br><br><a href="{% url 'taskform' "in_progress" %}">Add new task</a>
             </div>
         </div>
         <div class="column">
@@ -38,7 +38,7 @@
                 </p>
             {% endfor %}
             <div class="add_new">
-                <br><br><br><a href="{% url 'doneform' %}">Add new task</a>
+                <br><br><br><a href="{% url 'taskform' "done" %}">Add new task</a>
             </div>
         </div>
     </div>
