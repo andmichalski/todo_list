@@ -28,3 +28,11 @@
     font-size: 10px;
     text-align: right;
 }
+
+.text_button {
+    font-size: 8px;
+}
+
+.text_author {
+    padding-left: 200px
+}

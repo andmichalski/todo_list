@@ -7,10 +7,10 @@
             {% for task in tasks.0 %}
                 <p>
                     <a href="{% url 'taskdetail' task.pk %}">{{ task.title }}</a>
-                    <a style="font-size: 8px" href="{% url 'updatestatus' task.pk %}">Move</a>
-                    <a style="font-size: 8px" href="{% url 'deletetask' task.pk %}">Delete</a>
+                    <a class="text_button" href="{% url 'updatestatus' task.pk %}">Move</a>
+                    <a class="text_button" href="{% url 'deletetask' task.pk %}">Delete</a>
                 </p>
-                <p style="font-size: 8px; padding-left: 200px">{{ task.author }}</p>
+                <p class="text_button text_author">{{ task.author }}</p>
             {% endfor %}
             <div class="add_new">
                 <br><br><br><a href="{% url 'taskform' "todo"%}">Add new task</a>
@@ -21,10 +21,10 @@
             {% for task in tasks.1 %}
                 <p>
                     <a href="{% url 'taskdetail' task.pk %}">{{ task.title }}</a>
-                    <a style="font-size: 8px" href="{% url 'updatestatus' task.pk %}">Move</a>
-                    <a style="font-size: 8px" href="{% url 'deletetask' task.pk %}">Delete</a>
+                    <a class="text_button" href="{% url 'updatestatus' task.pk %}">Move</a>
+                    <a class="text_button" href="{% url 'deletetask' task.pk %}">Delete</a>
                 </p>
-                <p style="font-size: 8px; padding-left: 200px">{{ task.author }}</p>
+                <p class="text_button text_author">{{ task.author }}</p>
             {% endfor %}
             <div class="add_new">
                 <br><br><br><a href="{% url 'taskform' "in_progress" %}">Add new task</a>
@@ -35,10 +35,10 @@
             {% for task in tasks.2 %}
                 <p>
                     <a href="{% url 'taskdetail' task.pk %}">{{ task.title }}</a>
-                    <a style="font-size: 8px" href="{% url 'updatestatus' task.pk %}">Move</a>
-                    <a style="font-size: 8px" href="{% url 'deletetask' task.pk %}">Delete</a>
+                    <a class="text_button" href="{% url 'updatestatus' task.pk %}">Move</a>
+                    <a class="text_button" href="{% url 'deletetask' task.pk %}">Delete</a>
                 </p>
-                <p style="font-size: 8px; padding-left: 200px">{{ task.author }}</p>
+                <p class="text_button text_author">{{ task.author }}</p>
             {% endfor %}
             <div class="add_new">
                 <br><br><br><a href="{% url 'taskform' "done" %}">Add new task</a>
