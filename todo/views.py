@@ -53,6 +53,10 @@ class TaskFormView(AbstractLogin, FormView):
     template_name = "todo/task_form.html"
     success_url = reverse_lazy("tasklist")
 
+    def get_initial(self):
+        self.initial['author'] = self.request.user
+        return self.initial.copy()
+
     def form_valid(self, form):
         status = self.kwargs['string']
         form.save(status)

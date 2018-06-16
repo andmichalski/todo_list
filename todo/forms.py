@@ -7,8 +7,9 @@ from .models import Task
 class TaskForm(ModelForm):
     class Meta:
         model = Task
-        fields = ["title", "text", "status"]
-        widgets = {'status': forms.HiddenInput()}
+        fields = ["title", "text", "status", "author"]
+        widgets = {'status': forms.HiddenInput(),
+                   'author': forms.HiddenInput()}
 
     def save(self, new_status, commit=True):
         instance = super(TaskForm, self).save(False)

@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 
 from django.db import models
-
+from django.contrib.auth.models import User
 
 # Create your models here.
 
@@ -13,6 +13,7 @@ class Task(models.Model):
     title = models.CharField(max_length=100)
     text = models.TextField(max_length=1000)
     status = models.CharField(max_length=11, choices=STATUS_CHOICES, blank=True)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.title
