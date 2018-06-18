@@ -18,11 +18,11 @@ class Task(models.Model):
     def __str__(self):
         return self.title
 
-    def update_status(object):
-        if object.status == "todo":
-            object.status = "in_progress"
-        elif object.status == "in_progress":
-            object.status = "done"
+    def update_status(self):
+        if self.status == "todo":
+            self.status = "in_progress"
+        elif self.status == "in_progress":
+            self.status = "done"
         else:
-            object.status = "to_delete"
-        return object
+            self.status = "to_delete"
+        return self

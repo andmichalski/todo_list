@@ -14,15 +14,12 @@ from .models import Task
 
 # Create your views here.
 
-class AbstractLogin(LoginRequiredMixin):
+class LoginView(LoginRequiredMixin):
     login_url = '/login/'
     redirect_field_name = reverse_lazy('tasklist')
 
-    class Meta:
-        abstract = True
 
-
-class TaskListView(AbstractLogin, ListView):
+class TaskListView(LoginView, ListView):
     model = Task
 
     def get_context_data(self, **kwargs):
@@ -33,22 +30,22 @@ class TaskListView(AbstractLogin, ListView):
         return context
 
 
-class UpdateStatusView(AbstractLogin, DetailView):
+class UpdateStatusView(LoginView, DetailView):
     model = Task
 
     def get(self, request, *args, **kwargs):
         task = self.get_object()
-        task = Task.update_status(task)
+        task.update_status()
         task.save()
         return redirect('tasklist')
 
 
-class TaskDetailView(AbstractLogin, DetailView):
+class TaskDetailView(LoginView, DetailView):
     model = Task
     template_name = "todo/task_detail.html"
 
 
-class TaskFormView(AbstractLogin, FormView):
+class TaskFormView(LoginView, FormView):
     form_class = TaskForm
     template_name = "todo/task_form.html"
     success_url = reverse_lazy("tasklist")
@@ -63,7 +60,7 @@ class TaskFormView(AbstractLogin, FormView):
         return HttpResponseRedirect(self.get_success_url())
 
 
-class DeleteTaskView(AbstractLogin, DeleteView):
+class DeleteTaskView(LoginView, DeleteView):
     model = Task
     success_url = reverse_lazy("tasklist")
 

@@ -9,7 +9,6 @@ from .forms import TaskForm
 from .models import Task
 from .views import TaskListView, UpdateStatusView
 
-
 # Create your tests here.
 
 def setup_view(view, request, *args, **kwargs):
@@ -22,11 +21,11 @@ def setup_view(view, request, *args, **kwargs):
 class TaskViewTests(TestCase):
 
     def setUp(self):
-        Task.objects.create(title="First task", text="Some text about first task", status="todo")
-        Task.objects.create(title="Second task", text="Some text about second task", status="in_progress")
-        Task.objects.create(title="Third task", text="Some text about third task", status="done")
-        self.f = RequestFactory()
         self.user = User.objects.create_user(username='tester', email='tester@jtester.com', password='top_secret')
+        Task.objects.create(title="First task", text="Some text about first task", status="todo", author=self.user)
+        Task.objects.create(title="Second task", text="Some text about second task", status="in_progress", author=self.user)
+        Task.objects.create(title="Third task", text="Some text about third task", status="done", author=self.user)
+        self.f = RequestFactory()
 
     def test_should_display_correct_list(self):
         request = self.f.get(reverse('tasklist'))
@@ -60,10 +59,11 @@ class TaskViewTests(TestCase):
 class TestFormView(TestCase):
 
     def setUp(self):
-        form_data = {"title": "First task", "text": "Some text about first task"}
+        User.objects.create_user(username='tester', email='tester@jtester.com', password='top_secret')
+        form_data = {"title": "First task", "text": "Some text about first task", "author": "1"}
         self.form = TaskForm(data=form_data)
 
-    def test_form_should_pas_smoke_test(self):
+    def test_form_should_be_valid(self):
         self.assertTrue(self.form.is_valid())
 
     def test_should_save_form_with_todo_status(self):
@@ -94,18 +94,19 @@ class TestFormView(TestCase):
 class TestModelFunctions(TestCase):
 
     def setUp(self):
-        self.object = Task.objects.create(title="First task", text="Some text about first task", status="todo")
+        author = User.objects.create_user(username='tester', email='tester@jtester.com', password='top_secret')
+        self.object = Task.objects.create(title="First task", text="Some text about first task", status="todo", author=author)
 
     def test_todo_should_change_to_in_progress(self):
-        object = Task.update_status(self.object)
-        self.assertEqual(object.status, "in_progress")
+        self.object.update_status()
+        self.assertEqual(self.object.status, "in_progress")
 
     def test_in_progress_should_change_to_done(self):
         self.object.status = "in_progress"
-        object = Task.update_status(self.object)
-        self.assertEqual(object.status, "done")
+        self.object.update_status()
+        self.assertEqual(self.object.status, "done")
 
     def test_done_should_change_to_to_delete(self):
         self.object.status = "done"
-        object = Task.update_status(self.object)
-        self.assertEqual(object.status, "to_delete")
+        self.object.update_status()
+        self.assertEqual(self.object.status, "to_delete")
