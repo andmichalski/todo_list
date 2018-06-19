@@ -23,7 +23,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', TaskListView.as_view(), name="tasklist"),
     url(r'^task/(?P<pk>\d+)/$', TaskDetailView.as_view(), name="taskdetail"),
-    url(r'^new_task/(?P<string>[\w\-]+)/$', TaskFormView.as_view(), name="taskform"),
+    url(r'^new_task/(?P<status>[\w\-]+)/$', TaskFormView.as_view(), name="taskform"),
     url(r'^delete/(?P<pk>\d+)/$', DeleteTaskView.as_view(), name="deletetask"),
     url(r'^update/(?P<pk>\d+)/$', UpdateStatusView.as_view(), name="updatestatus"),
     url(r'^login/$', LoginView.as_view(), name="loginview"),

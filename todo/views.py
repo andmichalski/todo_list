@@ -10,7 +10,7 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, FormView, CreateView, UpdateView
 from django.views.generic.edit import DeletionMixin
 
-from .forms import TaskForm
+from .forms import TaskForm, TaskUpdateForm
 from .models import Task
 
 
@@ -35,9 +35,13 @@ class TaskListView(LoginView, ListView):
 
 class UpdateStatusView(LoginView, UpdateView):
     model = Task
-    fields = ['status']
     template_name_suffix = '_update_form'
     success_url = reverse_lazy('tasklist')
+    form_class = TaskUpdateForm
+
+    def form_valid(self, form):
+        form.save()
+        return HttpResponseRedirect(self.get_success_url())
 
 
 class TaskDetailView(LoginView, DetailView):
@@ -53,11 +57,11 @@ class TaskFormView(LoginView, FormView):
     def get_initial(self):
         self.initial = super(TaskFormView, self).get_initial()
         self.initial['author'] = self.request.user
+        self.initial['status'] = self.kwargs['status']
         return self.initial
 
     def form_valid(self, form):
-        status = self.kwargs['string']
-        form.save(status)
+        form.save()
         return HttpResponseRedirect(self.get_success_url())
 
 

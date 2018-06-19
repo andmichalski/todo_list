@@ -18,17 +18,8 @@ class Task(models.Model):
 
     title = models.CharField(max_length=100)
     text = models.TextField(max_length=1000)
-    status = models.CharField(max_length=11, choices=STATUS_CHOICES, blank=True)
+    status = models.CharField(max_length=11, choices=STATUS_CHOICES)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.title
-
-    def update_status(self):
-        if self.status == "todo":
-            self.status = "in_progress"
-        elif self.status == "in_progress":
-            self.status = "done"
-        else:
-            self.status = "to_delete"
-        return self

@@ -19,7 +19,7 @@
                 <p class="text_button text_author">Author: {{ task.author }}</p>
             {% endfor %}
             <div class="add_new">
-                <br><br><br><a href="{% url 'taskform' "todo"%}">Add new task</a>
+                <br><br><br><a href="{% url 'taskform' status="todo"%}">Add new task</a>
             </div>
         </div>
         <div class="column left_columns">
@@ -39,7 +39,7 @@
                 <p class="text_button text_author">Author: {{ task.author }}</p>
             {% endfor %}
             <div class="add_new">
-                <br><br><br><a href="{% url 'taskform' "in_progress" %}">Add new task</a>
+                <br><br><br><a href="{% url 'taskform' status="in_progress" %}">Add new task</a>
             </div>
         </div>
         <div class="column">
@@ -59,7 +59,7 @@
                 <p class="text_button text_author">Author: {{ task.author }}</p>
             {% endfor %}
             <div class="add_new">
-                <br><br><br><a href="{% url 'taskform' "done" %}">Add new task</a>
+                <br><br><br><a href="{% url 'taskform' status="done" %}">Add new task</a>
             </div>
         </div>
     </div>
