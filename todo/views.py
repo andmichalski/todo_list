@@ -6,9 +6,8 @@ from collections import defaultdict
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
-from django.shortcuts import redirect
 from django.urls import reverse_lazy
-from django.views.generic import ListView, DetailView, FormView, CreateView
+from django.views.generic import ListView, DetailView, FormView, CreateView, UpdateView
 from django.views.generic.edit import DeletionMixin
 
 from .forms import TaskForm
@@ -34,14 +33,11 @@ class TaskListView(LoginView, ListView):
         return context
 
 
-class UpdateStatusView(LoginView, DetailView):
+class UpdateStatusView(LoginView, UpdateView):
     model = Task
-
-    def get(self, request, *args, **kwargs):
-        task = self.get_object()
-        task.update_status()
-        task.save()
-        return redirect('tasklist')
+    fields = ['status']
+    template_name_suffix = '_update_form'
+    success_url = reverse_lazy('tasklist')
 
 
 class TaskDetailView(LoginView, DetailView):

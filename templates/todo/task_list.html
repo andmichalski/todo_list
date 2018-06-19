@@ -7,13 +7,16 @@
             {% for task in todo %}
                 <p>
                     <a href="{% url 'taskdetail' task.pk %}">{{ task.title }}</a>
-                    <a class="text_button" href="{% url 'updatestatus' task.pk %}">Move</a>
+                    <form method="post" action="{% url 'updatestatus' task.pk %}">
+                        {% csrf_token %}
+                        <input class="action_button" type="submit" name="Update" value="update"/>
+                    </form>
                     <form method="post" action="{% url 'deletetask' task.pk %}">
                         {% csrf_token %}
-                        <input class="delete_button" type="submit" name="Delete" value="delete"/>
+                        <input class="action_button" type="submit" name="Delete" value="delete"/>
                     </form>
                 </p>
-                <p class="text_button text_author">{{ task.author }}</p>
+                <p class="text_button text_author">Author: {{ task.author }}</p>
             {% endfor %}
             <div class="add_new">
                 <br><br><br><a href="{% url 'taskform' "todo"%}">Add new task</a>
@@ -24,13 +27,16 @@
             {% for task in in_progress %}
                 <p>
                     <a href="{% url 'taskdetail' task.pk %}">{{ task.title }}</a>
-                    <a class="text_button" href="{% url 'updatestatus' task.pk %}">Move</a>
+                    <form method="post" action="{% url 'updatestatus' task.pk %}">
+                        {% csrf_token %}
+                        <input class="action_button" type="submit" name="Update" value="update"/>
+                    </form>
                     <form method="post" action="{% url 'deletetask' task.pk %}">
                         {% csrf_token %}
-                        <input class="delete_button" type="submit" name="Delete" value="delete"/>
+                        <input class="action_button" type="submit" name="Delete" value="delete"/>
                     </form>
                 </p>
-                <p class="text_button text_author">{{ task.author }}</p>
+                <p class="text_button text_author">Author: {{ task.author }}</p>
             {% endfor %}
             <div class="add_new">
                 <br><br><br><a href="{% url 'taskform' "in_progress" %}">Add new task</a>
@@ -41,13 +47,16 @@
             {% for task in done %}
                 <p>
                     <a href="{% url 'taskdetail' task.pk %}">{{ task.title }}</a>
-                    <a class="text_button" href="{% url 'updatestatus' task.pk %}">Move</a>
+                    <form method="post" action="{% url 'updatestatus' task.pk %}">
+                        {% csrf_token %}
+                        <input class="action_button" type="submit" name="Update" value="update"/>
+                    </form>
                     <form method="post" action="{% url 'deletetask' task.pk %}">
                         {% csrf_token %}
-                        <input class="delete_button" type="submit" name="Delete" value="delete"/>
+                        <input class="action_button" type="submit" name="Delete" value="delete"/>
                     </form>
                 </p>
-                <p class="text_button text_author">{{ task.author }}</p>
+                <p class="text_button text_author">Author: {{ task.author }}</p>
             {% endfor %}
             <div class="add_new">
                 <br><br><br><a href="{% url 'taskform' "done" %}">Add new task</a>

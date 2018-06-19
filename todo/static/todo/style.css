@@ -1,14 +1,17 @@
 .column {
     float: left;
     width: 33%;
-    height: 500px;
+    height: auto;
     text-align: center;
+    border-left-style: solid;
+    border-width: 1px;
+    border-color: black;
 }
 
 .left_columns {
     border-right-style: solid;
     border-width: 1px;
-    border-color: black
+    border-color: black;
 }
 
 .row:after {
@@ -37,7 +40,7 @@
     padding-left: 200px
 }
 
-.delete_button {
+.action_button {
     float: right;
     font-size: 8px
 }
