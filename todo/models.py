@@ -1,14 +1,20 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.db import models
 from django.contrib.auth.models import User
+from django.db import models
+
 
 # Create your models here.
 
 
 class Task(models.Model):
-    STATUS_CHOICES = [("todo", "todo"), ("in_progress", "in_progress"), ("done", "done"), ("to_delete", "to_delete")]
+    TODO = "todo"
+    IN_PROGRESS = "in_progress"
+    DONE = "done"
+    TO_DELETE = "to_delete"
+
+    STATUS_CHOICES = [(TODO, "todo"), (IN_PROGRESS, "in_progress"), (DONE, "done"), (TO_DELETE, "to_delete")]
 
     title = models.CharField(max_length=100)
     text = models.TextField(max_length=1000)

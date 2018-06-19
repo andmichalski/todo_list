@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from collections import defaultdict
+
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
@@ -24,9 +26,10 @@ class TaskListView(LoginView, ListView):
 
     def get_context_data(self, **kwargs):
         context = super(TaskListView, self).get_context_data(**kwargs)
-        tasks = Task.objects.all()
-        filtered_tasks = [tasks.filter(status="todo"), tasks.filter(status="in_progress"), tasks.filter(status="done")]
-        context["tasks"] = filtered_tasks
+        tasks_by_status = defaultdict(list)
+        for task in Task.objects.all():
+            tasks_by_status[task.status].append(task)
+        context.update(tasks_by_status)
         return context
 
 
@@ -51,8 +54,9 @@ class TaskFormView(LoginView, FormView):
     success_url = reverse_lazy("tasklist")
 
     def get_initial(self):
+        self.initial = super(TaskFormView, self).get_initial()
         self.initial['author'] = self.request.user
-        return self.initial.copy()
+        return self.initial
 
     def form_valid(self, form):
         status = self.kwargs['string']

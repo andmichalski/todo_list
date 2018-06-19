@@ -4,7 +4,7 @@
     <div class="row">
         <div class="column left_columns">
             <p><b>TO-DO</b></p>
-            {% for task in tasks.0 %}
+            {% for task in todo %}
                 <p>
                     <a href="{% url 'taskdetail' task.pk %}">{{ task.title }}</a>
                     <a class="text_button" href="{% url 'updatestatus' task.pk %}">Move</a>
@@ -18,7 +18,7 @@
         </div>
         <div class="column left_columns">
             <p><b>In progress</b></p>
-            {% for task in tasks.1 %}
+            {% for task in in_progress %}
                 <p>
                     <a href="{% url 'taskdetail' task.pk %}">{{ task.title }}</a>
                     <a class="text_button" href="{% url 'updatestatus' task.pk %}">Move</a>
@@ -32,7 +32,7 @@
         </div>
         <div class="column">
             <p><b>Done</b></p>
-            {% for task in tasks.2 %}
+            {% for task in done %}
                 <p>
                     <a href="{% url 'taskdetail' task.pk %}">{{ task.title }}</a>
                     <a class="text_button" href="{% url 'updatestatus' task.pk %}">Move</a>

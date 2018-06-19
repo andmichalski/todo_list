@@ -9,6 +9,7 @@ from .forms import TaskForm
 from .models import Task
 from .views import TaskListView, UpdateStatusView
 
+
 # Create your tests here.
 
 def setup_view(view, request, *args, **kwargs):
@@ -23,37 +24,34 @@ class TaskViewTests(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(username='tester', email='tester@jtester.com', password='top_secret')
         Task.objects.create(title="First task", text="Some text about first task", status="todo", author=self.user)
-        Task.objects.create(title="Second task", text="Some text about second task", status="in_progress", author=self.user)
+        Task.objects.create(title="Second task", text="Some text about second task", status="in_progress",
+                            author=self.user)
         Task.objects.create(title="Third task", text="Some text about third task", status="done", author=self.user)
         self.f = RequestFactory()
 
     def test_should_display_correct_list(self):
         request = self.f.get(reverse('tasklist'))
         request.user = self.user
-        v = setup_view(TaskListView(), request)
-        v.object_list = Task.objects.all()
-        data = v.get_context_data()
-
-        self.assertTrue(data['tasks'])
-        self.assertEqual([len(qs) for qs in data['tasks']], [1, 1, 1])
+        view = TaskListView.as_view()
+        response = view(request)
+        response.render()
+        self.assertTrue(response.context_data["todo"])
+        self.assertTrue(response.context_data["in_progress"])
+        self.assertTrue(response.context_data["done"])
+        self.assertEqual(len(response.context_data["todo"]), 1)
+        self.assertEqual(len(response.context_data["in_progress"]), 1)
+        self.assertEqual(len(response.context_data["done"]), 1)
 
     def test_update_should_return_correct_record(self):
         request = self.f.get(reverse('updatestatus', kwargs={"pk": "1"}))
         request.user = self.user
         kwargs = {"pk": "1"}
-        v = setup_view(UpdateStatusView(), request, **kwargs)
-        v.get(v.request)
+        view = UpdateStatusView.as_view()
+        response = view(request, **kwargs)
+        self.assertEqual(response.status_code, 302)
+
         task = Task.objects.get(id=1)
         self.assertEqual(task.status, "in_progress")
-
-    def test_update_should_redirect(self):
-        request = self.f.get(reverse('updatestatus', kwargs={"pk": "1"}))
-        request.user = self.user
-        kwargs = {"pk": "1"}
-        v = setup_view(UpdateStatusView(), request, **kwargs)
-        v.get(v.request)
-        response = UpdateStatusView.as_view()(v.request, pk=1)
-        self.assertEqual(response.status_code, 302)
 
 
 class TestFormView(TestCase):
@@ -69,8 +67,7 @@ class TestFormView(TestCase):
     def test_should_save_form_with_todo_status(self):
         status = "todo"
         form = self.form
-        form.save(status)
-        task = Task.objects.get(id=1)
+        task = form.save(status)
         self.assertEqual(task.title, "First task")
         self.assertEqual(task.status, "todo")
 
@@ -85,8 +82,7 @@ class TestFormView(TestCase):
     def test_should_save_form_with_done_status(self):
         status = "done"
         form = self.form
-        form.save(status)
-        task = Task.objects.get(id=1)
+        task = form.save(status)
         self.assertEqual(task.title, "First task")
         self.assertEqual(task.status, "done")
 
@@ -95,7 +91,8 @@ class TestModelFunctions(TestCase):
 
     def setUp(self):
         author = User.objects.create_user(username='tester', email='tester@jtester.com', password='top_secret')
-        self.object = Task.objects.create(title="First task", text="Some text about first task", status="todo", author=author)
+        self.object = Task.objects.create(title="First task", text="Some text about first task", status="todo",
+                                          author=author)
 
     def test_todo_should_change_to_in_progress(self):
         self.object.update_status()
