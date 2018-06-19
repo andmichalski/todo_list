@@ -36,3 +36,8 @@
 .text_author {
     padding-left: 200px
 }
+
+.delete_button {
+    float: right;
+    font-size: 8px
+}

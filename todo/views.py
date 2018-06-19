@@ -8,7 +8,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
-from django.views.generic import ListView, DetailView, FormView, DeleteView, CreateView
+from django.views.generic import ListView, DetailView, FormView, CreateView
+from django.views.generic.edit import DeletionMixin
 
 from .forms import TaskForm
 from .models import Task
@@ -64,12 +65,9 @@ class TaskFormView(LoginView, FormView):
         return HttpResponseRedirect(self.get_success_url())
 
 
-class DeleteTaskView(LoginView, DeleteView):
+class DeleteTaskView(LoginView, DeletionMixin, DetailView):
     model = Task
     success_url = reverse_lazy("tasklist")
-
-    def get(self, *args, **kwargs):
-        return self.post(*args, **kwargs)
 
 
 class SignupUserView(CreateView):
