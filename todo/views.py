@@ -27,7 +27,7 @@ class TaskListView(LoginView, ListView):
     def get_context_data(self, **kwargs):
         context = super(TaskListView, self).get_context_data(**kwargs)
         tasks_by_status = defaultdict(list)
-        for task in Task.objects.all():
+        for task in Task.objects.all().exclude(status="to_delete"):
             tasks_by_status[task.status].append(task)
         context.update(tasks_by_status)
         return context
