@@ -114,10 +114,17 @@ class TodoViewsTests(TestCase):
 
     def test_signup_view_should_redirect_to_correct_template(self):
         request = self.f.get(reverse('signupview'))
-        request.user = self.user
         view = SignupUserView.as_view()
         response = view(request)
-        self.assertTemplateUsed(template_name="registration/signup.html")
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(template_name=reverse('signupview'))
+
+    def test_user_not_authorized_should_be_redirect_to_login_page(self):
+        request = self.f.get(reverse('tasklist'))
+        view = SignupUserView.as_view()
+        response = view(request)
+        response.render()
+        self.assertTemplateUsed(template_name=reverse('loginview'))
 
 
 class FormsTest(TodoViewsTests):
