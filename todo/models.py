@@ -14,7 +14,7 @@ class Task(models.Model):
     DONE = "done"
     TO_DELETE = "to_delete"
 
-    STATUS_CHOICES = [(TODO, "todo"), (IN_PROGRESS, "in_progress"), (DONE, "done"), (TO_DELETE, "to_delete")]
+    STATUS_CHOICES = ((TODO, "Todo"), (IN_PROGRESS, "In progress"), (DONE, "Done"), (TO_DELETE, "To delete"))
 
     title = models.CharField(max_length=100)
     text = models.TextField(max_length=1000)

@@ -39,10 +39,6 @@ class UpdateStatusView(LoginView, UpdateView):
     success_url = reverse_lazy('tasklist')
     form_class = TaskUpdateForm
 
-    def form_valid(self, form):
-        form.save()
-        return HttpResponseRedirect(self.get_success_url())
-
 
 class TaskDetailView(LoginView, DetailView):
     model = Task
@@ -55,10 +51,10 @@ class TaskFormView(LoginView, FormView):
     success_url = reverse_lazy("tasklist")
 
     def get_initial(self):
-        self.initial = super(TaskFormView, self).get_initial()
-        self.initial['author'] = self.request.user
-        self.initial['status'] = self.kwargs['status']
-        return self.initial
+        initial = super(TaskFormView, self).get_initial()
+        initial['author'] = self.request.user
+        initial['status'] = self.kwargs['status']
+        return initial
 
     def form_valid(self, form):
         form.save()
