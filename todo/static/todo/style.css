@@ -1,0 +1,46 @@
+.column {
+    float: left;
+    width: 33%;
+    height: auto;
+    text-align: center;
+    border-left-style: solid;
+    border-width: 1px;
+    border-color: black;
+}
+
+.left_columns {
+    border-right-style: solid;
+    border-width: 1px;
+    border-color: black;
+}
+
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.add_new {
+    font-size: 8px;
+    border-top-style: solid;
+    border-color: black;
+    border-width: 1px;
+}
+
+.loginfo {
+    font-size: 10px;
+    text-align: right;
+}
+
+.text_button {
+    font-size: 8px;
+}
+
+.text_author {
+    padding-left: 200px
+}
+
+.action_button {
+    float: right;
+    font-size: 8px
+}

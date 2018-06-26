@@ -1,0 +1,10 @@
+{% extends "todo/main.html" %}
+
+{% block content %}
+    <p><b>Task</b></p><br><br>
+    <p>Title: {{ object.title }}</p><br>
+    <p>Description: {{ object.text }}</p><br>
+    <p>Status: {{ object.status }}</p><br><br>
+    <p><a href="{% url 'tasklist' %}">Return to list</a></p>
+
+{% endblock %}
